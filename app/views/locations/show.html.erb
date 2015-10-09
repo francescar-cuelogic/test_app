@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Location Name:</strong>
+  <%= @location.name %><br>
+  Predictions:
+  <% @location.location_predictions.each do |p| %>
+  	<%= p.description%>
+  <% end %>
+</p>
+
+
+<%= link_to 'Back', locations_path %>
