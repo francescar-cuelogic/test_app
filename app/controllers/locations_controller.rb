@@ -30,6 +30,7 @@ class LocationsController < ApplicationController
       	# https://maps.googleapis.com/maps/api/place/autocomplete/json?input=<@location.name>&types=geocode&key=token 
         redirect_to @location, notice: 'Location was successfully created.'
       else
+      	@errors = @location.errors.full_messages.to_sentence
   			render :new
       end
   end

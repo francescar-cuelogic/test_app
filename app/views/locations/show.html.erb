@@ -4,9 +4,11 @@
   <strong>Location Name:</strong>
   <%= @location.name %><br>
   Predictions:
+  <ul>
   <% @location.location_predictions.each do |p| %>
-  	<%= p.description%>
+  	<li><%= p.description%></li>
   <% end %>
+  </ul>
 </p>
 
 

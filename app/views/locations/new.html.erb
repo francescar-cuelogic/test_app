@@ -1,6 +1,7 @@
 <%= form_for(@location) do |f| %>
-
-
+	<% if @errors.present?%>
+		<%= @errors%>
+	<%end%>
     <%= f.label :name %><br>
     <%= f.text_field :name %>
     <%= f.submit %>
