@@ -30,6 +30,21 @@ RSpec.describe LocationsController, type: :controller do
       end 
     end
 
+    describe "DELETE destroy" do
+      it "destroys the requested location" do
+        location = Location.create! valid_attributes
+        expect {
+          delete :destroy, {:id => location.to_param}
+        }.to change(Location, :count).by(-1)
+      end
+
+      it "redirects to the locations list" do
+        location = Location.create! valid_attributes
+        delete :destroy, {:id => location.to_param}
+        expect(response).to redirect_to(locations_url)
+      end
+    end
+
     # context 'with invalid attributes' do
     #   it 'does not create the location' do
     #     post :create, location: @location_without_name
