@@ -35,10 +35,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails', '~> 3.0.0.beta'
   gem 'factory_girl_rails', "~> 4.0"
   gem 'pry-rails'
   gem 'pry-byebug'
+  # gem 'rails-deprecated_sanitizer'
+end
+
+group :test do
+  # gem 'shoulda-matchers', :require => false
 end
 
 group :development do

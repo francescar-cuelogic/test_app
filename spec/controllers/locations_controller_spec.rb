@@ -1,11 +1,5 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe LocationsController do
-  before(:each) do
-    @location = FactoryGirl.create(:location)
-  end
+RSpec.describe LocationsController, type: :controller do
 
-	it "should set all necessary location information during create" do
-    post :create, {:location => @location}
-	end
 end

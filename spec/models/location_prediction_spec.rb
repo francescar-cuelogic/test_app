@@ -1,5 +1,7 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe LocationPrediction do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe LocationPrediction, :type => :model do
+  context "Associations" do
+    it { should belong_to(:locations) }
+  end
 end
