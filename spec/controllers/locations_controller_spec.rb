@@ -8,6 +8,10 @@ RSpec.describe LocationsController, type: :controller do
   let(:valid_attributes) {
     {name: 'Kakinada'}
   }
+  let(:invalid_attributes) {
+    {name: '',pin: 34}
+  }
+
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -29,6 +33,19 @@ RSpec.describe LocationsController, type: :controller do
         expect(response).to redirect_to @location
       end 
     end
+
+    describe "with invalid params" do
+      it "assigns a newly created but unsaved location" do
+        post :create, location: invalid_attributes
+        expect(assigns(:location)).to be_a(Location)
+      end
+
+      it "re-renders the 'new' template" do
+        post :create, location: invalid_attributes
+        expect(response).to render_template("new")
+      end
+    end
+
 
     describe "DELETE destroy" do
       it "destroys the requested location" do
