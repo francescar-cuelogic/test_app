@@ -1,16 +1,33 @@
 require 'rails_helper'
+require 'shoulda/matchers'
+
 
 RSpec.describe Location, :type => :model do
+  before :each do
+    @location = FactoryGirl.create(:location)
+    @location_without_name = Location.create(name: nil)
+  end
+
   context "Associations" do
     it { should have_many(:location_predictions) }
   end
+
+  it '#new: creating location instance' do
+    @location.should be_an_instance_of Location
+  end
+
+  # it '#new: build location instance' do
+  #   @location_without_name.should_not_to be_an_instance_of Location
+  # end
+  
   context "Validations" do
     it 'has a valid location name' do
-      expect(build(:location)).to be_valid
+      expect(@location).to be_valid
     end
 
     it 'is invalid without a year' do
-      expect(build(:location, name: nil)).to_not be_valid
+      expect(@location_without_name).to_not be_valid
     end
   end
+
 end
