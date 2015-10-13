@@ -22,12 +22,7 @@ class LocationsController < ApplicationController
     @location = Location.new(location_params)
       if @location.save
       	get_api_connection(@location)
-      	# new_arr = []
-      	# @description_arr.each do |v|
-      	# 	new_arr << v.first[1]
-      	# end
-      	create_location_descriptions(@description_arr,@location)
-      	# https://maps.googleapis.com/maps/api/place/autocomplete/json?input=<@location.name>&types=geocode&key=token 
+      	create_location_descriptions(@description_arr)
         redirect_to @location, notice: 'Location was successfully created.'
       else
       	@errors = @location.errors.full_messages.to_sentence
@@ -44,10 +39,9 @@ class LocationsController < ApplicationController
 		end
 	end
 
-	def create_location_descriptions(description_arr,location)
+	def create_location_descriptions(description_arr)
 		description_arr.each do |d|
-			loc_descr = LocationPrediction.new(description: d,location_id: location.id)
-			loc_descr.save
+			@location.location_predictions << LocationPrediction.new(description: d)
 		end
 	end
 
@@ -65,7 +59,6 @@ class LocationsController < ApplicationController
 
   def destroy
   	@location = Location.find(params[:id])
-  	@location.location_predictions.delete_all
     @location.destroy
     respond_to do |format|
       format.html { redirect_to locations_url, notice: 'Location was successfully destroyed.' }
