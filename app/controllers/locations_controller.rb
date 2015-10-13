@@ -1,13 +1,13 @@
 class LocationsController < ApplicationController
-	layout "newui"
-	require 'net/http'
+  layout "newui"
+  require 'net/http'
 
-	def index
-	  @locations = Location.all
-	end
+  def index
+    @locations = Location.all
+  end
 
-	def show
-		@location = Location.find(params[:id])
+  def show
+    @location = Location.find(params[:id])
   end
 
   def new
@@ -15,35 +15,20 @@ class LocationsController < ApplicationController
   end
 
   def edit
-  	@location = Location.find(params[:id])
+    @location = Location.find(params[:id])
   end
 
   def create
     @location = Location.new(location_params)
     if @location.save
-    	get_api_connection(@location)
-    	create_location_descriptions(@description_arr)
+      get_api_connection(@location)
+      create_location_descriptions(@description_arr, @location)
       redirect_to @location, notice: 'Location was successfully created.'
     else
-    	@errors = @location.errors.full_messages.to_sentence
-			render :new
+      @errors = @location.errors.full_messages.to_sentence
+      render :new
     end
   end
-
-  def get_api_connection(location)
-  	token = "#{Rails.application.secrets[:services]}"
-  	uri = URI("https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+location.name+"&types=geocode&key="+token)
-		@description_arr = []
-		JSON.parse(Net::HTTP.get(uri))['predictions'].each do |p|
-			@description_arr << p.values.first
-		end
-	end
-
-	def create_location_descriptions(description_arr)
-		description_arr.each do |d|
-			@location.location_predictions << LocationPrediction.new(description: d)
-		end
-	end
 
   def update
     respond_to do |format|
@@ -58,7 +43,7 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-  	@location = Location.find(params[:id])
+    @location = Location.find(params[:id])
     @location.destroy
     respond_to do |format|
       format.html { redirect_to locations_url, notice: 'Location was successfully destroyed.' }
@@ -73,6 +58,21 @@ class LocationsController < ApplicationController
 
     def location_params
       params.require(:location).permit(:name)
+    end
+
+    def get_api_connection(location)
+      token = "#{Rails.application.secrets[:services]}"
+      uri = URI("https://maps.googleapis.com/maps/api/place/autocomplete/json?input="+location.name+"&types=geocode&key="+token)
+      @description_arr = []
+      JSON.parse(Net::HTTP.get(uri))['predictions'].each do |p|
+        @description_arr << p.values.first
+      end
+    end
+
+    def create_location_descriptions(description_arr, location)
+      description_arr.each do |d|
+        location.location_predictions.create(description: d)
+      end
     end
 
 end

@@ -8,6 +8,8 @@ RSpec.describe LocationsController, type: :controller do
   let(:invalid_attributes) {
     {pin: 34}
   }
+  let(:location) { FactoryGirl.create(:location) }
+  let(:location_prediction) { FactoryGirl.create(:location_prediction) }
 
   describe "GET index" do
     it "assigns all locations as @locations" do
@@ -26,11 +28,14 @@ RSpec.describe LocationsController, type: :controller do
         end
       end
       it "should show the new location" do
-        post :create, location: valid_attributes
+        post :create, location: location.attributes
         expect(assigns(:location)).to be_a(Location)
         expect(assigns(:location)).to be_persisted
         @location = Location.find(Location.last.id)
         expect(response).to redirect_to @location
+      end
+      it "should create location descriptions" do
+        location.location_predictions.create(description: location_prediction.description)
       end
     end
   end

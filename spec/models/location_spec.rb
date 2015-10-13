@@ -16,16 +16,12 @@ RSpec.describe Location, :type => :model do
     @location.should be_an_instance_of Location
   end
 
-  # it '#new: build location instance' do
-  #   @location_without_name.should_not_to be_an_instance_of Location
-  # end
-  
   context "Validations" do
     it 'has a valid location name' do
       expect(@location).to be_valid
     end
 
-    it 'is invalid without a year' do
+    it 'is invalid without a name' do
       expect(@location_without_name).to_not be_valid
     end
   end
