@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :location_prediction do
-    name "MyString"
-    description "MyText"
-    association :location, factory: :location
+    description "Loc Description"
+    association :location
   end
 end
