@@ -3,7 +3,7 @@ class LocationsController < ApplicationController
 	require 'net/http'
 
 	def index
-	    @locations = Location.all
+	  @locations = Location.all
 	end
 
 	def show
@@ -20,14 +20,14 @@ class LocationsController < ApplicationController
 
   def create
     @location = Location.new(location_params)
-      if @location.save
-      	get_api_connection(@location)
-      	create_location_descriptions(@description_arr)
-        redirect_to @location, notice: 'Location was successfully created.'
-      else
-      	@errors = @location.errors.full_messages.to_sentence
-  			render :new
-      end
+    if @location.save
+    	get_api_connection(@location)
+    	create_location_descriptions(@description_arr)
+      redirect_to @location, notice: 'Location was successfully created.'
+    else
+    	@errors = @location.errors.full_messages.to_sentence
+			render :new
+    end
   end
 
   def get_api_connection(location)
